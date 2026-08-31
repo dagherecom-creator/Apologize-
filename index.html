@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>If I Could Rewind</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: #000;
+
+    transition: opacity 1.8s ease;
+}
+
+#intro.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intro-content {
+    width: 90%;
+}
+
+.subtitle {
+    color: rgba(255,255,255,0.45);
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 22px;
+}
+
+#intro h1 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(38px, 10vw, 72px);
+
+    font-weight: normal;
+
+    letter-spacing: 2px;
+
+    animation: titleIn 2s ease;
+}
+
+#start {
+    margin-top: 48px;
+
+    padding: 14px 35px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.35);
+
+    border-radius: 40px;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+#start:hover {
+    background:
+        rgba(255,255,255,0.1);
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================
+   STORY
+========================= */
+
+#story {
+    position: fixed;
+    inset: 0;
+
+    background: #000;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 1.5s ease;
+}
+
+#story.show {
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* =========================
+   PHOTO
+========================= */
+
+#photo {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    opacity: 0;
+
+    transform: scale(1.02);
+
+    transition:
+        opacity 1.4s ease,
+        transform 8s ease;
+}
+
+#photo.show {
+    opacity: 1;
+
+    transform: scale(1.08);
+}
+
+
+/* =========================
+   DARK CINEMATIC OVERLAY
+========================= */
+
+#overlay {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.15),
+            transparent 35%,
+            rgba(0,0,0,0.88)
+        );
+}
+
+
+/* =========================
+   TEXT
+========================= */
+
+#content {
+    position: absolute;
+
+    z-index: 2;
+
+    left: 7%;
+    right: 7%;
+
+    bottom: 12%;
+
+    text-align: center;
+}
+
+#sceneNumber {
+    color:
+        rgba(255,255,255,0.45);
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 16px;
+}
+
+#sceneText {
+    max-width: 800px;
+
+    margin: auto;
+
+    font-family: Georgia, serif;
+
+    font-size:
+        clamp(30px, 8vw, 55px);
+
+    line-height: 1.1;
+
+    font-weight: normal;
+
+    text-shadow:
+        0 3px 30px rgba(0,0,0,0.95);
+
+    opacity: 0;
+
+    transform:
+        translateY(15px);
+
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+}
+
+#sceneText.show {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================
+   CONTINUE
+========================= */
+
+#continue {
+    margin-top: 30px;
+
+    padding: 10px 20px;
+
+    border: none;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.4);
+
+    background: transparent;
+
+    color:
+        rgba(255,255,255,0.8);
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.7s ease;
+}
+
+#continue.show {
+    opacity: 1;
+}
+
+
+/* =========================
+   MUSIC
+========================= */
+
+#musicButton {
+    position: absolute;
+
+    z-index: 5;
+
+    top: 18px;
+    right: 15px;
+
+    padding: 9px 13px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.25);
+
+    border-radius: 30px;
+
+    background:
+        rgba(0,0,0,0.35);
+
+    color:
+        rgba(255,255,255,0.8);
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+#progress {
+    position: absolute;
+
+    z-index: 5;
+
+    left: 8%;
+    right: 8%;
+
+    bottom: 24px;
+
+    height: 1px;
+
+    background:
+        rgba(255,255,255,0.2);
+}
+
+#progressBar {
+    height: 100%;
+
+    width: 0%;
+
+    background: white;
+
+    transition:
+        width 1s ease;
+}
+
+
+/* =========================
+   ENDING
+========================= */
+
+#ending {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 20;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background: #000;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 2s ease;
+}
+
+#ending.show {
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+#endingText {
+    width: 88%;
+
+    font-family: Georgia, serif;
+
+    font-size:
+        clamp(31px, 8vw, 58px);
+
+    line-height: 1.1;
+
+    transition:
+        opacity 1.2s ease;
+}
+
+#signature {
+    margin-top: 45px;
+
+    color:
+        rgba(255,255,255,0.55);
+
+    font-size: 9px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    opacity: 0;
+
+    transition:
+        opacity 1.5s ease;
+}
+
+#signature.show {
+    opacity: 1;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    #photo {
+        object-fit: contain;
+    }
+
+    #content {
+        bottom: 11%;
+    }
+
+    #sceneText {
+        font-size:
+            clamp(29px, 8vw, 45px);
+    }
+
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes titleIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+
+        letter-spacing: 10px;
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+        letter-spacing: 2px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     INTRO
+===================================== -->
+
+<div id="intro">
+
+    <div class="intro-content">
+
+        <div class="subtitle">
+            A little something for you
+        </div>
+
+        <h1>
+            IF I COULD REWIND…
+        </h1>
+
+        <button id="start">
+            START
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     STORY
+===================================== -->
+
+<div id="story">
+
+
+    <!--
+    PHOTOS:
+
+    Upload these files to GitHub next to
+    this index.html:
+
+    photo1.jpg
+    photo2.jpg
+    photo3.jpg
+    photo4.jpg
+    photo5.jpg
+    photo6.jpg
+
+    ========================================
+    CHANGE PHOTOS HERE IF YOU WANT
+    ========================================
+    -->
+
+    <img id="photo"
+         src=""
+         alt="Memory">
+
+
+    <div id="overlay"></div>
+
+
+    <div id="content">
+
+        <div id="sceneNumber">
+        </div>
+
+        <div id="sceneText">
+        </div>
+
+        <button id="continue">
+            Continue
+        </button>
+
+    </div>
+
+
+    <button id="musicButton">
+        ♪ Music
+    </button>
+
+
+    <div id="progress">
+
+        <div id="progressBar"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     ENDING
+===================================== -->
+
+<div id="ending">
+
+    <div>
+
+        <div id="endingText">
+        </div>
+
+        <div id="signature">
+            Love, Roberto
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     MUSIC
+
+     Upload music.mp3 next to this file.
+===================================== -->
+
+<audio id="music" loop>
+
+    <source
+        src="music.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+
+<script>
+
+
+/* =====================================
+   STORY
+
+   ONLY 6 PHOTOS ARE USED.
+
+   The remaining scenes use a black
+   cinematic background.
+===================================== */
+
+const scenes = [
+
+    {
+        photo: "photo1.jpg",
+        text: "If I could rewind this moment…"
+    },
+
+    {
+        photo: "photo2.jpg",
+        text: "I’d go back."
+    },
+
+    {
+        photo: "photo3.jpg",
+        text: "Not because I want to erase our memories…"
+    },
+
+    {
+        photo: "photo4.jpg",
+        text: "Not because I would change you…"
+    },
+
+    {
+        photo: "photo5.jpg",
+        text: "I’d go back to change the moments where I got things wrong."
+    },
+
+    {
+        photo: "photo6.jpg",
+        text: "Because you mean too much to me for me to pretend that I didn’t mess up."
+    },
+
+    {
+        photo: null,
+        text: "We’ve laughed."
+    },
+
+    {
+        photo: null,
+        text: "We’ve annoyed each other."
+    },
+
+    {
+        photo: null,
+        text: "We’ve made memories I wouldn’t trade for anything."
+    },
+
+    {
+        photo: null,
+        text: "And I know I can’t rewind real life."
+    },
+
+    {
+        photo: null,
+        text: "I can’t change what already happened."
+    },
+
+    {
+        photo: null,
+        text: "But I can choose what I do from here."
+    }
+
+];
+
+
+/* =====================================
+   ELEMENTS
+===================================== */
+
+const intro =
+    document.getElementById("intro");
+
+const start =
+    document.getElementById("start");
+
+const story =
+    document.getElementById("story");
+
+const photo =
+    document.getElementById("photo");
+
+const sceneNumber =
+    document.getElementById("sceneNumber");
+
+const sceneText =
+    document.getElementById("sceneText");
+
+const continueButton =
+    document.getElementById("continue");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const ending =
+    document.getElementById("ending");
+
+const endingText =
+    document.getElementById("endingText");
+
+const signature =
+    document.getElementById("signature");
+
+const music =
+    document.getElementById("music");
+
+const musicButton =
+    document.getElementById("musicButton");
+
+
+/* =====================================
+   VARIABLES
+===================================== */
+
+let currentScene = 0;
+
+let changing = false;
+
+let musicPlaying = false;
+
+
+/* =====================================
+   START
+===================================== */
+
+start.addEventListener(
+    "click",
+    function() {
+
+        intro.classList.add("hide");
+
+        story.classList.add("show");
+
+
+        /*
+        Start music after the user
+        presses START.
+
+        This is allowed by iPhone
+        and Android browsers.
+        */
+
+        music.play()
+            .then(function() {
+
+                musicPlaying = true;
+
+                musicButton.textContent =
+                    "♪ Music";
+
+            })
+            .catch(function() {
+
+                musicPlaying = false;
+
+                musicButton.textContent =
+                    "♪ Muted";
+
+            });
+
+
+        setTimeout(
+            function() {
+
+                showScene(0);
+
+            },
+            900
+        );
+
+    }
+);
+
+
+/* =====================================
+   SHOW SCENE
+===================================== */
+
+function showScene(index) {
+
+    if (!scenes[index]) {
+        return;
+    }
+
+
+    changing = true;
+
+
+    const data =
+        scenes[index];
+
+
+    /*
+    Fade old scene.
+    */
+
+    sceneText.classList.remove("show");
+
+    continueButton.classList.remove("show");
+
+    photo.classList.remove("show");
+
+
+    setTimeout(
+        function() {
+
+
+            /*
+            Scene number.
+            */
+
+            sceneNumber.textContent =
+                "Scene " + (index + 1);
+
+
+            /*
+            Text.
+            */
+
+            sceneText.textContent =
+                data.text;
+
+
+            /*
+            Progress.
+            */
+
+            progressBar.style.width =
+                ((index + 1) /
+                 scenes.length * 100) + "%";
+
+
+            /*
+            If this scene has a photo,
+            show it.
+
+            If it doesn't, remove it.
+            */
+
+            if (data.photo) {
+
+                photo.src =
+                    data.photo;
+
+                photo.style.display =
+                    "block";
+
+                photo.onload =
+                    function() {
+
+                        photo.classList.add("show");
+
+                    };
+
+                photo.onerror =
+                    function() {
+
+                        console.log(
+                            "Could not find " +
+                            data.photo
+                        );
+
+                    };
+
+            }
+
+            else {
+
+                photo.style.display =
+                    "none";
+
+            }
+
+
+            /*
+            Show text.
+            */
+
+            setTimeout(
+                function() {
+
+                    sceneText.classList.add(
+                        "show"
+                    );
+
+                },
+                150
+            );
+
+
+            /*
+            Show Continue.
+            */
+
+            setTimeout(
+                function() {
+
+                    continueButton.classList.add(
+                        "show"
+                    );
+
+                    changing = false;
+
+                },
+                1200
+            );
+
+
+        },
+        600
+    );
+
+}
+
+
+/* =====================================
+   CONTINUE BUTTON
+===================================== */
+
+continueButton.addEventListener(
+    "click",
+    function() {
+
+        if (changing) {
+            return;
+        }
+
+
+        if (
+            currentScene <
+            scenes.length - 1
+        ) {
+
+            currentScene++;
+
+            showScene(currentScene);
+
+        }
+
+        else {
+
+            showEnding();
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   ENDING
+===================================== */
+
+function showEnding() {
+
+    story.classList.remove("show");
+
+
+    setTimeout(
+        function() {
+
+            ending.classList.add("show");
+
+
+            const lines = [
+
+                "I’m sorry, Clarita.",
+
+                "I don’t expect an apology to magically fix everything.",
+
+                "I just want you to know that I mean it.",
+
+                "If I could rewind…",
+
+                "…I’d do better."
+
+            ];
+
+
+            let index = 0;
+
+
+            function nextLine() {
+
+
+                if (
+                    index >=
+                    lines.length
+                ) {
+
+                    setTimeout(
+                        function() {
+
+                            signature.classList.add(
+                                "show"
+                            );
+
+                        },
+                        1000
+                    );
+
+                    return;
+
+                }
+
+
+                endingText.style.opacity =
+                    "0";
+
+
+                setTimeout(
+                    function() {
+
+                        endingText.textContent =
+                            lines[index];
+
+                        endingText.style.opacity =
+                            "1";
+
+                    },
+                    500
+                );
+
+
+                index++;
+
+
+                setTimeout(
+                    nextLine,
+                    3200
+                );
+
+            }
+
+
+            nextLine();
+
+
+        },
+        1500
+    );
+
+}
+
+
+/* =====================================
+   MUSIC BUTTON
+===================================== */
+
+musicButton.addEventListener(
+    "click",
+    function() {
+
+
+        if (musicPlaying) {
+
+            music.pause();
+
+            musicPlaying = false;
+
+            musicButton.textContent =
+                "♪ Muted";
+
+        }
+
+        else {
+
+            music.play()
+                .then(
+                    function() {
+
+                        musicPlaying = true;
+
+                        musicButton.textContent =
+                            "♪ Music";
+
+                    }
+                )
+                .catch(
+                    function() {
+
+                        musicPlaying = false;
+
+                    }
+                );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
